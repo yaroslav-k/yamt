@@ -6,7 +6,7 @@ So. What am I building here?
 This is going to be expense/income/invest portfolio tracker with budgeting, regular bills and so on.
 Now I'm still using Microsoft Money Plus Deluxe (yes, I'm serious). It's really good but oh man, it's time to create something new.
 
-This will (hopefully) will be something modern. Tech stack that will be used:
+This will (hopefully) be something modern. Tech stack that will be used:
 - Spring Boot server with microservices
 - Hosted on Amazon AWS
 - Using Amazon RDS (not sure yet)
