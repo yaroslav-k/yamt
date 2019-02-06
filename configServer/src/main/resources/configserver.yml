@@ -1,0 +1,78 @@
+spring:
+  application:
+    name: configserver
+#  profiles:
+#    active: native
+  cloud:
+    config:
+      discovery:
+        service-id: configserver
+        enabled: true
+      server:
+#        native:
+#          searchLocations: file:${user.dir}/config-repo
+        git:
+          uri: git@github.com:yaroslav-k/yamt-config.git
+#          search-paths: config-repo
+          ignore-local-ssh-settings: true
+          strict-host-key-checking: false
+          passphrase: passfrase
+          private-key: |
+                        -----BEGIN RSA PRIVATE KEY-----
+                        Proc-Type: 4,ENCRYPTED
+                        DEK-Info: AES-128-CBC,275204F8DE183CE5ADDC790F3910E2E5
+
+                        otOfq8iOzGOfEtSAqqM+KkK74Cl0fx9EXzfKAsbcxvwwSYmowf9QPezPk/TlH4lJ
+                        YjiolGrH73L4ESJLXF+irlKwX58yh3zrJqx+hmNkBU19M0clqPwehjWaxZ7Pkmsh
+                        vOclM/AFLPR5AVcr1oGs9N174BhbFdMFce+juJ7IBbi3mzuERwUFPn0K5uXg+8tH
+                        6O2Q+5I4Tj5xWKOAlPHXB+eBpBLaJJ+6MOsWY+An6Dgpn47783qAXNrBSqWMn2zS
+                        DdETtpUg5OGpuKxxxFEDmeUKm5AjoEPWKZiMLqFl1k8x4xgA8zh8GBHwEhDHNsUM
+                        cRRkG2IM2A0KVo2s0c1dG9ZPKCAkKQlfz2wUO1BG62vCoH+GOd3+u6iVGDQxURbN
+                        yiCTdALz9yUdrOWI6a63VcbBBsPyD2/EMVTQgiPTOYEZADNrKxefWO8OqZrHY6wt
+                        R1y8Cj2g5EWJWHn9Todj+ftxtdy/LV4UU8VDUQ+zqykCAhNBDMUxznZAHpKIYFXr
+                        AAUWBa5mdDUyOGdgCuRmiacxcTeS4xJfY5dnbI2d/1OHXdD8VfIlmnBpldSC4l4v
+                        Bs0JIGESpkPtPjewHPjw07WB4cbRk35KAg8F0FdyGNiccC5FLjYEcBpvWdVdcxKU
+                        +cUDb1zM6Z2M/vyJgI2/0UyLCs0qC2pqRlWeDxdh565WIRKE/0Jmp+I7y8gQbXL/
+                        wal5tweLfiqzNaqAEIRfz8ykgcXjueAVCFMlQgcK7MEkrLg0M2sCDHLLWYl4xWug
+                        lRUdcXqqfxQKkXMXuRGfKLvRfnCZFyMv/Uaz/rw6rv41PHpUvUiFRdHKM4TQUQlQ
+                        5cdLbLXna0GMAucQIJAdoQou3ok9qMtafPzjwDLTTGwPVu2SlUKyKiteo7MaqaMu
+                        zNyEzf8xTLmJUIkm20lfunN03RHW+TI8bH+HCDMlFzzbS7Ik6c2M6C6cQfh17GCL
+                        9rF7P6JvviZ4bIKZKPLKJbLJCd+dWYaQkSnZj8gaVTym8zfk6C9R7NHG2FM31giS
+                        yJtahz2Hff7QEkHMdAtXOAmpN0zhQODFMr76LI0oVI/uVDM1MTi1E9VbixIj27dv
+                        /xpmF7EbHKK8r+E6djAI8C0czg3eoS3975MIHoHzoAPPMa9GW/z7rrwhgtsClpKR
+                        l+6x86jaR4KAWyUDx1jtLicfR0XF36KsB9Dh5oXAkwr1HXkvEoDZFpd83qWCZBfX
+                        LhIvU08q6QEpeyW9txKyHqOloepuyqIL72GVpO530oB5Gk0KYEI8fYGEZMKNrrqg
+                        gCpLebCwD9fHuKx6CLCq+JVq2GNrU0Uoopz3OvaDpPvv8YWXk0RwjjkR9rcsAI4E
+                        IiMmZsmHnkxwSj/5Rreje2We43Pyl22Zuzm1qXABKbV2UnAApwIJxHlMyozVEXcB
+                        q6mfJmsFgTclsWpbiwSV3KQWMvjrRnkkrbpst1zR9YTtlWn4emos/XDpNu8A72OD
+                        5kijVTHJ3tMqXxvzdEYT2UCSP7hR0OtXuj8SJ5nVOqTneMsLF3Q/s4cIsaFZd0Wr
+                        lOP2wg6D/FXt3qRLg7jDeTYLJgP1pgXOSlNMtbrKxs1oYMsZmjZOKfGsNrwrCY06
+                        b7hY4sMYJl5SgdpJ/Gce/v7CD8XRCgJRyOQc2M9jmoAyayeaIsgQpq4vusjA47qe
+                        JkRb1GpB3zS767v4Yl5EcMEYC5MCx+rkqriDPSqc/jux3URBI9f1pWhkGCCcoAy+
+                        ZED3u8J1O6irzl2CRBL/Mu+2PSLgNiQ2Jl5w6UvP6y2lkEF1uhUY3v3tQSkAZRyg
+                        D0Ihj+RKXHXRc85m8WfR4emVR4LGQPwAp5hLIqAE1j071XQxuB/vLrL1FzmH6b1M
+                        +aHMdX7aDkrtlzw8v+tLfagA3T5tnmDrHkKo/S4yESnY5VcQgtShJvLwLyfjbrRK
+                        MwFh1BSsjrivugLUPOKJjLWTYYwam1Ua80PKTBLr0J4SjznXrYaQ+afwk3nUu2Gd
+                        mdRYpxJLfl8TUxQ9tkeyX/AFdtIm7EBpJBH4J2SRGU12gHsk4zczNoDqNytOv3jJ
+                        MBBDU95crsNSP0/K0EKoge3oIMjAvLMUaysohCNZBgXD0deqMEBwpnlThiARr8Ea
+                        Y6Xphv+H9Bdn0bnrwTzRrMPaencAQY2bD+2euHrtdMMDOvZhl4rorfNJMbiQoAR1
+                        D/A1lxHEysMwcTEbHAihplLpSGoN5p6RaM4uoOPE3jtmTs79FLNq20DSq+CW50Ak
+                        aqBlML/e0TVRb21+K3eY4FAkF/C8wYWu+ARRM2K+7jCaKQIoGU2tr8N03t0PZvJY
+                        AYsUXdjAYzpljYBxjn3CSYC5orBDfDAfGUbu7abO5rNzPIwa5o2iw8Y4PECs2EeI
+                        DdB05zt5CUz00tTQ4NCNYDao8H55Sivi+RyFJxd7WWUPgqNA3fntqHrPxYT4h9eb
+                        GNS2KlZe00TMNprzt2+nMG+0rpGM+/AUY1fH8MFgWDDNlVEAAvukc92XEmFwfPvz
+                        nlqLFVvE4kBdIadJ/UI+kSi58Ks7ZEn0YRdlPHoKSLw4YlhsRBnZ5nagElJg32QA
+                        C4BBelsz1fZt2p94t7HhoA7JheThrX8lBfoW3lmhipZMP0HFHBQ0AEvX1tAeHcNJ
+                        HxDsgGbRx9yoK4k2sAcwEnMhmB54E/MbHjFO4ZpuOfwGzuplCuKNTYpJQauQwMSO
+                        mZEo5wRQDRlYPwLhLUOTGHb+c797MuVHkzsstTO+tC39dNUd4fxlmmr+trRdEQxI
+                        mgYuxjx1ufN0vWXsPAZqPrrN90Rl6b+U6KINPLHFZUqdsDfSOTZ8g3lM6GwGnZ8o
+                        3MOA+LZxCYGt6jsfPhIBwtZvYwDvoluwkrgM7heG3f1gwqQISCZL0fdqvvabzlO8
+                        qkZBfUGo450pFII7TE9APpEqEOWjcPhSPBA58n37xdSsORo4aOZ48UNjAac03WZO
+                        WgaqmPskoW7mQS/A6NQ5zkZS9BeswVSVTi6I0vVMo+hcTeUENeH5N0CQ4l9cafkD
+                        BQBZ9q+Tj3bpc9P1LQ3FgFT2qqd78Xa7DhO6rveYvaLDlqlFm6KYagUcy4rfpImD
+                        4UurYyl3/dmRIs+Iz4XHzDfq2THtRAXD0mcGoCa9KAUf9M1k7Xa16XtPFCaQNAND
+                        -----END RSA PRIVATE KEY-----
+
+server:
+  port: 8888
+#debug: true

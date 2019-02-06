@@ -1,0 +1,4 @@
+#Needed to change configuration file name from application*.* to configserver*.*
+spring:
+  config:
+    name: discoveryserver
