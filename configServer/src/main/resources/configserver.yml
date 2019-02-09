@@ -1,6 +1,10 @@
+server:
+  port: 8888
+
 spring:
   application:
     name: configserver
+
 #  profiles:
 #    active: native
   cloud:
@@ -73,6 +77,3 @@ spring:
                         4UurYyl3/dmRIs+Iz4XHzDfq2THtRAXD0mcGoCa9KAUf9M1k7Xa16XtPFCaQNAND
                         -----END RSA PRIVATE KEY-----
 
-server:
-  port: 8888
-#debug: true

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="YamtConfigurationServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="ConfigurationServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="configServer" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.slhouse.yamt.config.YamtConfigurationServerApplication" />
     <option name="ALTERNATIVE_JRE_PATH" />

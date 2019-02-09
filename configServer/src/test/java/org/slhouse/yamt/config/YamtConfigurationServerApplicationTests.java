@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = YamtConfigurationServerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@SpringBootConfiguration // needed to user configuration files from standard /resource folder
+@SpringBootConfiguration // needed to use configuration files from standard /resource folder
 public class YamtConfigurationServerApplicationTests {
 	@Autowired
 	private TestRestTemplate testRestTemplate;

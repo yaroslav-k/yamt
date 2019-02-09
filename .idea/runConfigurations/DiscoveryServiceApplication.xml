@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="YamtDiscoveryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="DiscoveryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="discoveryServer" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.slhouse.yamt.discovery.YamtDiscoveryServiceApplication" />
     <option name="ALTERNATIVE_JRE_PATH" />
