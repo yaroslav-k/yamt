@@ -7,6 +7,7 @@ package org.slhouse.yamt.web;
 import lombok.extern.slf4j.Slf4j;
 import org.slhouse.yamt.entity.Quote;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -29,7 +31,8 @@ import java.security.Principal;
  **/
 @Slf4j
 @RestController
-public class WebController {
+@RequestMapping("/api")
+public class RestAPIController {
 
     private final WebClient.Builder webClientBuilder;
 
@@ -40,7 +43,7 @@ public class WebController {
     private String quoteServiceURI;
 
     @Autowired
-    public WebController(WebClient.Builder webClientBuilder) {
+    public RestAPIController(@Qualifier("quoteServiceWebClient") WebClient.Builder webClientBuilder) {
         this.webClientBuilder = webClientBuilder;
     }
 

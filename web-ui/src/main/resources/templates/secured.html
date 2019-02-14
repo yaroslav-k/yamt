@@ -7,10 +7,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Yet Another Money Tracker</title>
+    <title>Title</title>
 </head>
 <body>
-<H1>Hello from Yet Another Money Tracker</H1>
+<H2><th:block >
+    Secured from <div th:text="${currentUser.fullName}"></div>
+    <div th:text="${#authentication}"></div>
+    <div></div>
+</th:block></H2>
 </body>
 </html>
-
