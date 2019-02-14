@@ -28,3 +28,16 @@ This will (hopefully) be something modern. Tech stack that will be used:
 1. Enter spendings in offline from mobile
 1. TBD
 
+##Technical Requirements
+1. Microservices with autodiscovery, configuration server, and authorization server
+1. Database - TBD
+1. Most parts should you standard Srping MVC and REST. Some services (e.g. QuoteServices, which gets a information from third-party sources) should be implemented using asynchronous Spring (WebFlux). (See Netflix Blog (https://medium.com/netflix-techblog/zuul-2-the-netflix-journey-to-asynchronous-non-blocking-systems-45947377fb5c)) to get and idea when that asynchronous stuff is really needed.
+1. Microservices
+    1. Web Client - React application for end-users
+    1. WebUI - administration web-interface (WebMVC + Vaadin Framework) and REST API server for Web Clients (or, REST server could be a separate service. TBD)
+    1. QuoteService - everything that should come from third-party services, should be fetched here (stock/bond prizes, currency exchange rates, etc.)
+    1. PortfolioService - stores users' portfolios
+    1. UserService (maybe will joined to Authorization Server) - for users security
+    1. ConfigurationServer - for centralized configuration management
+    1. Discovery Server (Eureka) - for service discovery
+    1. TBD
