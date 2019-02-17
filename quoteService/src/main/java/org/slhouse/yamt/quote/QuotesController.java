@@ -9,8 +9,11 @@ import org.slhouse.yamt.entity.Quote;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -36,14 +39,12 @@ public class QuotesController {
     }
 
     @GetMapping("/sec")
-    public Mono<String> index(Principal principal, ServerHttpRequest request) throws UnknownHostException {
+    public Mono<String> sec(JwtAuthenticationToken principal, ServerHttpRequest request, @RequestHeader("Client-from") String client_from) throws UnknownHostException {
         return Mono.just("Secured for " + principal.getName() + ". Hello from " + name + " @" + InetAddress.getLocalHost().getHostAddress() + " (" + InetAddress.getLocalHost().getHostName() + "), port: " + request.getURI().getPort());
     }
 
     @GetMapping("/quote")
-    public Flux<Quote> getQuotes(ServerHttpRequest request) throws FileNotFoundException {
-        // just as an example
-//        if (new Random().nextInt(10) <= 5) throw new FileNotFoundException("Quote not found");
+    public Flux<Quote> getQuotes(@AuthenticationPrincipal Principal principal, ServerHttpRequest request, @RequestHeader(value = "Client-from", required = false) String client_from) {
         log.info("Started getQuotes");
         Flux<Quote> stringFlux = Flux.just(new Quote("Quote from port " + request.getURI().getPort()), new Quote(name), new Quote("Quote1"), new Quote("Quote2"), new Quote("Quote3")).delayElements(Duration.ofMillis(100));
         log.info("Finished getQuotes");

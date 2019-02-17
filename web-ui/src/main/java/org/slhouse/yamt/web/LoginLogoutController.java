@@ -6,6 +6,7 @@ package org.slhouse.yamt.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.reactive.result.view.Rendering;
 
 /**
  * @author Yaroslav V. Khazanov
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginLogoutController {
     @GetMapping("/login")
-    public String login() {
-        return "login";
+    public Rendering login() {
+        return Rendering.view("login").build();
     }
     @GetMapping("/logout")
-    public String logout() {
-        return "logout";
+    public Rendering logout() {
+        return Rendering.view("logout").build();
     }
 }

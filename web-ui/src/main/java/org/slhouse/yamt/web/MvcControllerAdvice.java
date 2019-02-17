@@ -4,6 +4,7 @@
 
 package org.slhouse.yamt.web;
 
+import org.slhouse.yamt.entity.YamtUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
