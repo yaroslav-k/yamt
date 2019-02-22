@@ -1,0 +1,56 @@
+name:
+  localWebUI
+
+server.port: 8080
+spring.application.name: webui
+eureka.instance.instance-id:
+  ${spring.application.name}:${random.value}
+
+debug: true
+trace: true
+logging.level.reactor: debug
+spring.http.log-request-details: true
+logging.level.org.springframework.web: TRACE
+logging.level.org.springframework.security: TRACE
+
+# This name should be the a physical host name, because OAuth services use hard-coded WebClient, which can't be load-balanced
+authserver.url: http://authserver:8090
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          authserver:
+            provider: authserver
+            client-id: webui
+            client-secret: webui-secret
+            client-name: Login Authserver
+            client-authentication-method : basic
+            authorization-grant-type: authorization_code
+            scope: openid, quotes
+            redirect-uri-template : "{baseUrl}/login/oauth2/code/{registrationId}"
+
+        provider:
+          authserver:
+            authorization-uri: ${authserver.url}/oauth/authorize
+            token-uri: ${authserver.url}/oauth/token
+            jwk-set-uri: ${authserver.url}/.well-known/jwks.json
+            user-name-attribute: sub
+
+
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${authserver.url}/.well-known/jwks.json
+
+
+
+#            user-info-uri : ${authserver.url}/userinfo
+
+
+
+
+#      resourceserver:
+#        jwt:
+#         jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+

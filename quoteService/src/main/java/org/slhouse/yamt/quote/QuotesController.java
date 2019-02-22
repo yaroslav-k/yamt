@@ -44,7 +44,7 @@ public class QuotesController {
     }
 
     @GetMapping("/quote")
-    public Flux<Quote> getQuotes(@AuthenticationPrincipal Principal principal, ServerHttpRequest request, @RequestHeader(value = "Client-from", required = false) String client_from) {
+    public Flux<Quote> getQuotes(JwtAuthenticationToken principal, ServerHttpRequest request, @RequestHeader(value = "Client-from", required = false) String client_from) {
         log.info("Started getQuotes");
         Flux<Quote> stringFlux = Flux.just(new Quote("Quote from port " + request.getURI().getPort()), new Quote(name), new Quote("Quote1"), new Quote("Quote2"), new Quote("Quote3")).delayElements(Duration.ofMillis(100));
         log.info("Finished getQuotes");

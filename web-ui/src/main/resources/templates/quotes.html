@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (c) 2019. Yaroslav Khazanov y@5505.ru
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<H2><th:block >
+    <!--Secured from <div th:text="${currentUser.fullName}"></div>-->
+    Quotes for <div th:text="${#authentication}"></div>
+    <div th:text="${quotes}"></div>
+    <div></div>
+</th:block></H2>
+</body>
+</html>

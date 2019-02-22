@@ -1,0 +1,25 @@
+# This name should be the same as a physical host name, or else refresh_token will not work
+spring.application.name: authserver
+server.port: ${PORT:8090}
+
+eureka.instance.instance-id: ${spring.application.name}.${random.value}
+
+authserver.registration-id: authserver
+
+#logging.level.reactor: debug
+spring.http.log-request-details: true
+logging.level.org.springframework.web: TRACE
+logging.level.org.springframework.security: TRACE
+
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: <client-id>
+            client-secret: <client-secret>
+          github:
+            client-id: <client-id>
+            client-secret: <client-secret>

@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.startsWith;
 @RunWith(SpringRunner.class)
 @WebFluxTest
 @TestPropertySource(properties = {
-        "quoteService.uri=http://localhost:8777", // webController should go there for quoteService. Then we can mock quoteService
+        "quoteService.url=http://localhost:8777", // webController should go there for quoteService. Then we can mock quoteService
 })
 public class WebUIApplicationTests {
     @Autowired
