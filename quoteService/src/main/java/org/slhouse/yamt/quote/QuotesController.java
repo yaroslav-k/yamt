@@ -7,9 +7,10 @@ package org.slhouse.yamt.quote;
 import lombok.extern.slf4j.Slf4j;
 import org.slhouse.yamt.entity.Quote;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,6 @@ import reactor.core.publisher.Mono;
 import java.io.FileNotFoundException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.security.Principal;
 import java.time.Duration;
 
 /**
@@ -43,7 +43,8 @@ public class QuotesController {
         return Mono.just("Secured for " + principal.getName() + ". Hello from " + name + " @" + InetAddress.getLocalHost().getHostAddress() + " (" + InetAddress.getLocalHost().getHostName() + "), port: " + request.getURI().getPort());
     }
 
-    @GetMapping("/quote")
+    @GetMapping(value = "/quote", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    @PreAuthorize("#jwt.hasScope('quotes')")
     public Flux<Quote> getQuotes(JwtAuthenticationToken principal, ServerHttpRequest request, @RequestHeader(value = "Client-from", required = false) String client_from) {
         log.info("Started getQuotes");
         Flux<Quote> stringFlux = Flux.just(new Quote("Quote from port " + request.getURI().getPort()), new Quote(name), new Quote("Quote1"), new Quote("Quote2"), new Quote("Quote3")).delayElements(Duration.ofMillis(100));

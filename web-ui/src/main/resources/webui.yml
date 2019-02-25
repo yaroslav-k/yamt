@@ -6,6 +6,14 @@ spring.application.name: webui
 eureka.instance.instance-id:
   ${spring.application.name}:${random.value}
 
+# log groups
+logging:
+  group:
+    yamt: org.slhouse.*
+
+logging.level.yamt: DEBUG
+
+# Debugging logging
 debug: true
 trace: true
 logging.level.reactor: debug

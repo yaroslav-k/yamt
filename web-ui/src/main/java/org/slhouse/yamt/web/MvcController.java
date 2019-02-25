@@ -68,7 +68,7 @@ public class MvcController {
     public Rendering quotes(@RegisteredOAuth2AuthorizedClient("authserver") OAuth2AuthorizedClient authorizedClient, @AuthenticationPrincipal OidcUser oidcUser, Authentication token) {
         final OAuth2AuthorizedClient newAuthorizedClient = createAuthorizedClient(authorizedClient, token);
         Flux<String> quoteFlux = webClient.build().get()
-                .uri(quoteServiceURI + "/quote").accept(MediaType.APPLICATION_JSON)
+                .uri(quoteServiceURI + "/quote").accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_STREAM_JSON)
                 .attributes(oauth2AuthorizedClient(newAuthorizedClient))
                 .attribute("custom attr", "ca value")
                 .header("Client-from", authorizedClient.getClientRegistration().getRegistrationId())
