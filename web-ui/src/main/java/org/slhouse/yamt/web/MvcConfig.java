@@ -21,11 +21,13 @@ import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.result.method.annotation.ArgumentResolverConfigurer;
 
+import java.net.URI;
 import java.util.Objects;
 
 /**
@@ -98,6 +100,9 @@ public class MvcConfig implements WebFluxConfigurer {
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+        final RedirectServerLogoutSuccessHandler logoutSuccessHandler = new RedirectServerLogoutSuccessHandler();
+        logoutSuccessHandler.setLogoutSuccessUrl(URI.create("http://authserver:8090/logout/token"));
+
         http
             .authorizeExchange()
             .pathMatchers("/", "/webjars/**").permitAll()
@@ -145,7 +150,7 @@ public class MvcConfig implements WebFluxConfigurer {
         })
         .and()
 */
-            .logout()//.logoutSuccessHandler(new RedirectServerLogoutSuccessHandler()) // todo we'll need to logout on the auth server
+            .logout().logoutSuccessHandler(logoutSuccessHandler)
         ;
         return http.build();
         // @formatter:off
