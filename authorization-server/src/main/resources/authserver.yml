@@ -5,6 +5,7 @@ server.port: ${PORT:8090}
 eureka.instance.instance-id: ${spring.application.name}.${random.value}
 
 authserver.registration-id: authserver
+webui.redirect.host: http://localhost:8080
 
 #logging.level.reactor: debug
 spring.http.log-request-details: true

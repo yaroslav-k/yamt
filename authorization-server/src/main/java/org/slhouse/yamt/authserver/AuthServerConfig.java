@@ -63,6 +63,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Value("${authserver.registration-id}")
     String registrationID;
 
+    @Value("${webui.redirect.host}")
+    String redirectURI;
+
     /**
      * authenticationManager is really needed for a "password" grant type only:
      * https://docs.spring.io/spring-security-oauth2-boot/docs/current-SNAPSHOT/reference/htmlsingle/#oauth2-boot-authorization-server-authentication-manager
@@ -94,10 +97,10 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .inMemory()
                 .withClient("webui")
                 .secret(passwordEncoder().encode("webui-secret"))
-                .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token") // client-credentials mey be will not be needed
+                .authorizedGrantTypes("authorization_code", "client_credentials", "password", "refresh_token") // client-credentials may be will not be needed
                 .scopes("openid", "quotes") // openid is necessary, others are custom
                 .autoApprove(true)// we don't want it to ask any questions to user about approving the scopes
-                .redirectUris("http://localhost:8080/login/oauth2/code/"+registrationID)// the host should be load balanced maybe?
+                .redirectUris(redirectURI+"/login/oauth2/code/"+registrationID)// the host should be load balanced maybe?
         ;
     }
 
