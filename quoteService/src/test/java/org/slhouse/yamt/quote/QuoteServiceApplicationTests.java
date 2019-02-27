@@ -3,14 +3,13 @@ package org.slhouse.yamt.quote;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,10 +18,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 @AutoConfigureWireMock(port = 8090)
 @RunWith(SpringRunner.class)
-// because else we'll not get ReactiveJwtDecoder bean and maybe some others, instead of WebFluxTest with here two annotations:
-//@SpringBootTest
-//@AutoConfigureWebTestClient
 @WebFluxTest
+@Import(OAuth2ResourceServerProperties.class) // otherwise it will not be available in org.slhouse.yamt.quote.WebFluxConfig
 public class QuoteServiceApplicationTests {
 	@Autowired
 	private WebTestClient webTestClient;

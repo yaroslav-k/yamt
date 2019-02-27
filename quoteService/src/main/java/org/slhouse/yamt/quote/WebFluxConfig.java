@@ -5,9 +5,9 @@
 package org.slhouse.yamt.quote;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.env.Environment;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -30,7 +30,7 @@ import java.util.Objects;
 @EnableReactiveMethodSecurity
 public class WebFluxConfig implements WebFluxConfigurer {
     @Autowired
-    private Environment env;
+    OAuth2ResourceServerProperties resourceServerProperties;
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
@@ -40,9 +40,13 @@ public class WebFluxConfig implements WebFluxConfigurer {
                 .and()
                 .oauth2ResourceServer()
                 .jwt()
-                    .jwtDecoder(decoder())// this is really needed only when starting from tests
+                    .jwtDecoder(decoder())// this is really needed only when starting from tests. Otherwise it's created automatically
         ;
         return http.build();
+    }
+
+    private ReactiveJwtDecoder decoder() {
+        return new NimbusReactiveJwtDecoder(Objects.requireNonNull(resourceServerProperties.getJwt().getJwkSetUri()));
     }
 
     @Override
@@ -71,10 +75,6 @@ public class WebFluxConfig implements WebFluxConfigurer {
     public void configurePathMatching(PathMatchConfigurer configurer) {
         // to make all RestControllers answer on /api only
 //        configurer.addPathPrefix("/api", HandlerTypePredicate.forAnnotation(RestController.class));
-    }
-
-    private ReactiveJwtDecoder decoder() {
-        return new NimbusReactiveJwtDecoder(Objects.requireNonNull(env.getProperty("spring.security.oauth2.resourceserver.jwt.jwk-set-uri")));
     }
 
 }
