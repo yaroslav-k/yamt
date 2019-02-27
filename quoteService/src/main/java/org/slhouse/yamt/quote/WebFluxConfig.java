@@ -4,31 +4,34 @@
 
 package org.slhouse.yamt.quote;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
-import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.reactive.config.PathMatchConfigurer;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Objects;
+
 /**
  * @author Yaroslav V. Khazanov
  **/
-@Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class WebFluxConfig implements WebFluxConfigurer {
+    @Autowired
+    private Environment env;
+
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
@@ -36,7 +39,8 @@ public class WebFluxConfig implements WebFluxConfigurer {
                 .anyExchange().authenticated()
                 .and()
                 .oauth2ResourceServer()
-                .jwt().jwtAuthenticationConverter(new ReactiveJwtAuthenticationConverterAdapter(new JwtAuthenticationConverter()))
+                .jwt()
+                    .jwtDecoder(decoder())// this is really needed only when starting from tests
         ;
         return http.build();
     }
@@ -54,9 +58,7 @@ public class WebFluxConfig implements WebFluxConfigurer {
 
     }
 
-    // For things like @PreAuthorize("#oauth2.isOAuth()") to work
-    // It's doesn't work now anyway, because OAuth2SecurityExpressionMethods waits for OAuth2Authentication, while
-    // we have OAuth2AuthenticationToken, or JwtAuthenticationToken. So will override OAuth2SecurityExpressionMethods later
+    // For things like @PreAuthorize("#jwt.hasScope()") to work
     @Bean
     @Primary
     public DefaultMethodSecurityExpressionHandler reactiveMethodSecurityExpressionHandler() {
@@ -70,4 +72,9 @@ public class WebFluxConfig implements WebFluxConfigurer {
         // to make all RestControllers answer on /api only
 //        configurer.addPathPrefix("/api", HandlerTypePredicate.forAnnotation(RestController.class));
     }
+
+    private ReactiveJwtDecoder decoder() {
+        return new NimbusReactiveJwtDecoder(Objects.requireNonNull(env.getProperty("spring.security.oauth2.resourceserver.jwt.jwk-set-uri")));
+    }
+
 }
