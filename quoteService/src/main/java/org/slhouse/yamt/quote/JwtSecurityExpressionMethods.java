@@ -20,7 +20,7 @@ public class JwtSecurityExpressionMethods {
     }
     public boolean hasScope(String scope) {
         final Jwt token = ((JwtAuthenticationToken) authentication).getToken();
-        final Object scopes = token.getClaims().get("scopes");
+        final Object scopes = token.getClaims().get("scope");
         return (scopes instanceof JSONArray) && ((JSONArray) scopes).contains(scope);
     }
 }

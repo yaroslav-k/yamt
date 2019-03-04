@@ -20,6 +20,11 @@ logging.level.org.springframework.web: TRACE
 logging.level.org.springframework.security: TRACE
 
 # This name should be the a physical host name, because OAuth services use hard-coded WebClient, which can't be load-balanced
+# some issues around that:
+# https://github.com/spring-cloud/spring-cloud-security/issues/94
+# https://github.com/spring-cloud/spring-cloud-security/issues/61
+# https://github.com/spring-projects/spring-security-oauth/issues/671
+
 authserver.url: http://authserver:8090
 
 spring:

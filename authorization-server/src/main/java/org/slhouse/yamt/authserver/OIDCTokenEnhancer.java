@@ -66,7 +66,7 @@ class OIDCTokenEnhancer implements TokenEnhancer {
                 .jwtID(UUID.randomUUID().toString()) // set a random NONCE in the middle of it
                 // and some custom information
                 .claim("authorities", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .claim("scopes", accessToken.getScope())
+                .claim("scope", accessToken.getScope())
         ;
 
 
