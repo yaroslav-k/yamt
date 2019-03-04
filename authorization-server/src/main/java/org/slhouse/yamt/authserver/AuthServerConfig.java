@@ -140,13 +140,13 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setReuseRefreshToken(false);
+//        tokenServices.setAccessTokenValiditySeconds(Integer.MAX_VALUE);
         JWTTokenConverter tokenConverter = new JWTTokenConverter();
         tokenConverter.setKeyPair(keyPair);
         tokenServices.setTokenStore(new JwtTokenStore(tokenConverter));
         TokenEnhancerChain chain = new TokenEnhancerChain();
         chain.setTokenEnhancers(Arrays.asList(tokenConverter, oidcTokenEnhancer));
         tokenServices.setTokenEnhancer(chain);
-//        tokenServices.setAccessTokenValiditySeconds(70);
         return tokenServices;
     }
 

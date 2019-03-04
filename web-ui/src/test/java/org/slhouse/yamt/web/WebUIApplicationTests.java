@@ -1,30 +1,30 @@
 package org.slhouse.yamt.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slhouse.yamt.entity.Quote;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.reactive.ReactiveOAuth2ClientAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import java.util.Arrays;
-
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.containsString;
 
 @AutoConfigureWireMock(port = 8777)
 @RunWith(SpringRunner.class)
-@WebFluxTest
 @TestPropertySource(properties = {
         "quoteService.url=http://localhost:8777", // webController should go there for quoteService. Then we can mock quoteService
+})
+@WebFluxTest
+@Import({
+        ReactiveOAuth2ClientAutoConfiguration.class, // import the needed configuration
+        OAuth2ResourceServerProperties.class, // import the needed configuration
+        ThymeleafAutoConfiguration.class // this is needed to load view resolvers configuration to test @Controller's methods
 })
 public class WebUIApplicationTests {
     @Autowired
@@ -36,7 +36,7 @@ public class WebUIApplicationTests {
                 .uri("/")
                 .exchange()
                 .expectStatus().is2xxSuccessful()
-                .expectBody(String.class).value(startsWith("Hello from localWebUI"));
+                .expectBody(String.class).value(containsString("Hello from Yet Another Money Tracker"));
     }
 
     @Test
@@ -44,12 +44,11 @@ public class WebUIApplicationTests {
         client.get()
                 .uri("/sec")
                 .exchange()
-                .expectStatus().is5xxServerError();
-//				.expectStatus().is2xxSuccessful()
-//				.expectBody(String.class).value(startsWith("Hello from localWebUI"));
+                .expectStatus().isUnauthorized();
     }
 
 
+/* This requires OAuth2 authorization. Will be tested in e2e tests
     @Test
     public void testQuotes() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
@@ -67,11 +66,13 @@ public class WebUIApplicationTests {
                 .exchange()
                 .expectStatus().is2xxSuccessful()
                 .expectBody()
-                    .jsonPath("@.[0].name").isEqualTo("quote")
-                    .jsonPath("@.[1].name").isEqualTo("quote1");
+                .jsonPath("@.[0].name").isEqualTo("quote")
+                .jsonPath("@.[1].name").isEqualTo("quote1");
 
 
     }
+*/
 
 }
+
 

@@ -58,8 +58,6 @@ public class RestAPIController {
     }
 
     @GetMapping("/jwt")
-    //@PreAuthorize("hasAnyRole('ROLE_USER')")
-    //@PreAuthorize("#oauth2.denyOAuthClient()") // this should be available only via jwt
     public Mono<String> jwt(JwtAuthenticationToken jwtAuthenticationToken, @AuthenticationPrincipal Principal principal, ServerHttpRequest request) throws UnknownHostException {
         return Mono.just("Jwt Endpoint only. Secured for " + jwtAuthenticationToken.getName() + ". Hello from " + name + " @" + InetAddress.getLocalHost().getHostAddress() + " (" + InetAddress.getLocalHost().getHostName() + "), port: " + request.getURI().getPort());
     }
@@ -67,7 +65,6 @@ public class RestAPIController {
     @GetMapping("/quotes")
     public Flux<Quote> quotes(JwtAuthenticationToken jwtAuthenticationToken, @AuthenticationPrincipal OidcUser oidcUser, Authentication token) {
         log.info("Start request");
-//        final OAuth2AuthorizedClient newAuthorizedClient = new OAuth2AuthorizedClient();
         Flux<Quote> quoteFlux = webClient.build().get()
                 .uri(quoteServiceURI +"/quote").accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwtAuthenticationToken.getToken().getTokenValue())
@@ -78,10 +75,6 @@ public class RestAPIController {
         log.info("End request");
         return quoteFlux;
     }
-
-
-
-
 
     // just as an example
     @ExceptionHandler
